@@ -1,0 +1,7 @@
+/Users/yobourai/Desktop/so_long-42/MLX42/build/CMakeFiles/mlx42.dir
+/Users/yobourai/Desktop/so_long-42/MLX42/build/CMakeFiles/edit_cache.dir
+/Users/yobourai/Desktop/so_long-42/MLX42/build/CMakeFiles/rebuild_cache.dir
+/Users/yobourai/Desktop/so_long-42/MLX42/build/CMakeFiles/list_install_components.dir
+/Users/yobourai/Desktop/so_long-42/MLX42/build/CMakeFiles/install.dir
+/Users/yobourai/Desktop/so_long-42/MLX42/build/CMakeFiles/install/local.dir
+/Users/yobourai/Desktop/so_long-42/MLX42/build/CMakeFiles/install/strip.dir
