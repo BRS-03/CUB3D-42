@@ -6,7 +6,7 @@
 /*   By: yobourai <yobourai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 05:14:16 by yobourai          #+#    #+#             */
-/*   Updated: 2025/02/21 07:25:32 by yobourai         ###   ########.fr       */
+/*   Updated: 2025/02/22 05:13:19 by yobourai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_ply
 	char		**map;
 	int			pos_x;
 	int			pos_y;
+	void 		*win;
 	mlx_t		*mlx;
 	mlx_image_t	*wall;
 	mlx_image_t	*zero;
