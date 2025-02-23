@@ -12,29 +12,6 @@
 
 #include "cub.h"
 
-void	ft_init(t_ply *info)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (info->map[i])
-	{
-		j = 0;
-		while (info->map[i][j])
-		{
-			if (info->map[i][j] == 'P')
-			{
-				info->pos_y = i;
-				info->pos_x = j;
-				return ;
-			}
-			j++;
-		}
-		i++;
-	}
-}
 void	ft_exit(t_ply *ply)
 {
     ftt_free(ply->map);
@@ -80,11 +57,7 @@ void	copy_map(t_ply *kask, char **tmp)
 void	parsse_error(t_ply *kask)
 {
 	char	**tmp;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
 	tmp = malloc((ft_count_map(kask->map) + 1) * sizeof(char *));
 	if (!tmp)
 	{
@@ -183,23 +156,113 @@ void	files(int ac, char *av[])
 		exit(EXIT_FAILURE);
 	}
 }
+void fill_image(mlx_image_t *image, uint32_t color)
+{
+    for (int y = 0; y < TILE_SIZE; y++)
+    {
+        for (int x = 0; x < TILE_SIZE; x++)
+        {
+            mlx_put_pixel(image, x, y, color);
+        }
+    }
+}
+
+void ft_init(t_ply *mlx_ptr)
+{
+    mlx_ptr->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "MAP2D", false);
+    if (!mlx_ptr->mlx)
+    {
+        fprintf(stderr, "Error: Failed to initialize MLX\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Create images
+    mlx_ptr->wall = mlx_new_image(mlx_ptr->mlx, TILE_SIZE, TILE_SIZE);
+    mlx_ptr->zero = mlx_new_image(mlx_ptr->mlx, TILE_SIZE, TILE_SIZE);
+    mlx_ptr->player = mlx_new_image(mlx_ptr->mlx, TILE_SIZE, TILE_SIZE);
+
+    if (!mlx_ptr->wall || !mlx_ptr->zero || !mlx_ptr->player)
+    {
+        fprintf(stderr, "Error: Failed to create one or more MLX images\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Images created successfully\n");
+
+    // Fill images with colors
+    fill_image(mlx_ptr->wall, 0xFFFFFF);  // White for walls
+    fill_image(mlx_ptr->zero, 0x000000);  // Black for empty space
+    fill_image(mlx_ptr->player, 0xFF0000); // Red for player
+    if (mlx_image_to_window(mlx_ptr->mlx, mlx_ptr->wall, 10, 10) < 0)
+        fprintf(stderr, "Error: Failed to attach wall image to window\n");
+
+    if (mlx_image_to_window(mlx_ptr->mlx, mlx_ptr->zero, 100, 100) < 0)
+        fprintf(stderr, "Error: Failed to attach zero image to window\n");
+
+    if (mlx_image_to_window(mlx_ptr->mlx, mlx_ptr->player, 200, 200) < 0)
+        fprintf(stderr, "Error: Failed to attach player image to window\n");
+}
 
 
+
+void window(t_ply *mlx_ptr)
+{
+    if (!mlx_ptr || !mlx_ptr->mlx)
+    {
+        fprintf(stderr, "Error: Invalid MLX pointer\n");
+        return;
+    }
+    mlx_loop(mlx_ptr->mlx);  // This should only be called once, in main()
+}
+
+void printf_map(t_ply *map)
+{
+	int i = 0;
+	while (map->map[i])
+	{
+		printf("%s", map->map[i]);
+		i++;
+	}
+}
+void draw_map(t_ply *mlx_ptr)
+{
+	int i = 0;
+	printf_map(mlx_ptr);
+    while(mlx_ptr->map[i])
+    {
+		int j = 0;
+        while( mlx_ptr->map[i][j])
+        {
+            if (mlx_ptr->map[i][j] == '1')
+                mlx_put_pixel(mlx_ptr->wall, j * TILE_SIZE, i * TILE_SIZE, 0xFFFFFF);
+            else if (mlx_ptr->map[i][j] == '0')
+                mlx_put_pixel(mlx_ptr->zero, j * TILE_SIZE, i * TILE_SIZE, 0x000000);
+            else if (mlx_ptr->map[i][j] == 'P')
+                mlx_put_pixel(mlx_ptr->player, j * TILE_SIZE, i * TILE_SIZE, 0xFF0000);
+			j++;
+        }
+		i++;
+    }
+}
 int	main(int ac, char **av)
 {
     t_ply	*cortab;
     files(ac, av);
-	cortab = allocat();
-	if (!cortab)
-		return (1);
-	cortab->map = ft_read_map(av[1]);
-	if (!cortab->map)
-	{
-		free(cortab);
-		printf("error\n");
-		return (1);
-	}
-	ft_init(cortab);
-	window();
+    cortab = allocat();
+    if (!cortab)
+        return (1);
+
+    cortab->map = ft_read_map(av[1]);
+    if (!cortab->map)
+    {
+        free(cortab);
+        printf("error\n");
+        return (1);
+    }
+    ft_init(cortab);
+    draw_map(cortab);
+	window(cortab);
+    mlx_loop(cortab->mlx);
+
     return (0);
 }

@@ -1,7 +1,7 @@
-# include "/Users/yobourai/Desktop/CUB3D-42/MLX42/include/MLX42/MLX42.h"
+# include "MLX42/MLX42.h"
 
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 300
+#define WINDOW_WIDTH 900
+#define WINDOW_HEIGHT 500
 
 int main(void)
 {

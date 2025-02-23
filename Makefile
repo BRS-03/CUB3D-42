@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -I/Users/$(USER)/Desktop/CUB3D-42/MLX42/include
 
 SRCS = cub.c get_next_line.c get_next_line_utils.c
 
-MLX = /Users/$(USER)/Desktop/CUB3D-42/MLX42/build/libmlx42.a -ldl -lglfw -L/goinfre/yobourai/homebrew/opt/glfw/lib
+MLX =  MLX42/build/libmlx42.a -ldl -lglfw 
 INCLUDE = cub.h
 
 OBJS = $(SRCS:.c=.o)

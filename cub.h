@@ -13,8 +13,10 @@
 
 #ifndef CUB_H
 # define CUB_H
-
-# include "/Users/yobourai/Desktop/CUB3D-42/MLX42/include/MLX42/MLX42.h"
+# define WINDOW_WIDTH 900
+# define WINDOW_HEIGHT 500
+# define TILE_SIZE 100
+# include "MLX42/MLX42.h"
 # include "get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
